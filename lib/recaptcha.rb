@@ -2,6 +2,7 @@ require 'recaptcha/configuration'
 require 'recaptcha/client_helper'
 require 'recaptcha/verify'
 require 'recaptcha/active_record_verify'
+require 'i18n'
 
 module Recaptcha
   module VERSION #:nodoc:

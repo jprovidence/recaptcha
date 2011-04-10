@@ -1,0 +1,5 @@
+en:
+  recaptcha:
+    errors:
+      verification_incorrect: 'Word verification response is incorrect. Please try again.'
+      verification_server_not_reachable: 'Oops, we failed to validate your word verification response. Please try again.'

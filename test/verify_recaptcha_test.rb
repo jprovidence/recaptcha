@@ -5,6 +5,8 @@ require 'mocha'
 require 'net/http'
 require File.dirname(File.expand_path(__FILE__)) + '/../lib/recaptcha'
 
+I18n.backend.load_translations(File.dirname(File.expand_path(__FILE__)) + '/../lib/locales/en.yml')
+
 class RecaptchaVerifyTest < Test::Unit::TestCase
   def setup
     Recaptcha.configuration.private_key = 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'
@@ -47,7 +49,7 @@ class RecaptchaVerifyTest < Test::Unit::TestCase
     expect_http_post(response_with_body("false\nbad-news"))
     
     errors = mock
-    errors.expects(:add).with(:base, "Word verification response is incorrect, please try again.")
+    errors.expects(:add).with(:base, "Word verification response is incorrect. Please try again.")
     model = mock(:valid? => false, :errors => errors)
 
     assert !@controller.verify_recaptcha(:model => model)
