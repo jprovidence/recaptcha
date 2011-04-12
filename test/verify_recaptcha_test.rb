@@ -45,7 +45,7 @@ class RecaptchaVerifyTest < Test::Unit::TestCase
     assert_nil @controller.flash[:recaptcha_error]
   end
   
-  def test_errors_should_be_added_to_model
+  def test_errors_should_be_added_to_model_on_base
     expect_http_post(response_with_body("false\nbad-news"))
     
     errors = mock
@@ -54,6 +54,17 @@ class RecaptchaVerifyTest < Test::Unit::TestCase
 
     assert !@controller.verify_recaptcha(:model => model)
     assert_equal "bad-news", @controller.flash[:recaptcha_error]
+  end
+
+  def test_errors_should_be_added_to_model_on_attribute
+    expect_http_post(response_with_body("false\nbad-news"))
+    
+    errors = mock
+    errors.expects(:add).with(:recaptcha, "Word verification response is incorrect. Please try again.")
+    model = mock(:valid? => false, :errors => errors)
+
+    assert !@controller.verify_recaptcha(:model => model, :attribute => :recaptcha)
+
   end
 
   def test_returns_true_on_success_with_optional_key

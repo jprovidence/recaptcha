@@ -7,8 +7,12 @@ module Recaptcha
 
       def valid_with_captcha?(controller)
         captcha_verifier = build_captcha_verifier(controller)
-        self.valid? && captcha_verifier.verify_recaptcha(:model => self)
+        options_method = :options_for_recaptcha_verification
+        options = controller.respond_to?(options_method) ? controller.send(options_method, self) : {}
+        options.merge!({:model => self})
+        self.valid? && captcha_verifier.verify_recaptcha(options)
       end
+      
 
       def build_captcha_verifier(controller)
         returning Object.new do |validator|
