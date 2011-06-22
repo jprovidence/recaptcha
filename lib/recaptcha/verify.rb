@@ -1,5 +1,6 @@
 module Recaptcha
   module Verify
+    require 'net/http'
     # Your private API can be specified in the +options+ hash or preferably
     # using the Configuration.
     def verify_recaptcha(options = {})
